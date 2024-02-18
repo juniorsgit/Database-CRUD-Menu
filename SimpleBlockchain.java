@@ -12,13 +12,25 @@ class Block {
     private String previousHash;
     private String hash;
     private String data;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private String email;
+    private String gender;
 
     // Constructor
-    public Block(int index, String previousHash, String data) {
+    public Block(int index, String previousHash, int id, String firstName, String lastName, int age, String email, String gender) {
         this.index = index;
         this.timestamp = new Date().getTime();
         this.previousHash = previousHash;
-        this.data = data;
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.gender = gender;
+        this.data = id + firstName + lastName + age + email + gender;
         this.hash = calculateHash();
     }
 
@@ -62,6 +74,30 @@ class Block {
     public String getData() {
         return data;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
 }
 
 // Define a Blockchain class
@@ -72,13 +108,13 @@ class Blockchain {
     public Blockchain() {
         chain = new ArrayList<Block>();
         // Create the genesis block (the first block in the chain)
-        chain.add(new Block(0, "0", "Genesis Block"));
+        chain.add(new Block(0, "0", 0, "", "", 0, "", ""));
     }
 
     // Add a new block to the blockchain
-    public void addBlock(String data) {
+    public void addBlock(int id, String firstName, String lastName, int age, String email, String gender) {
         Block previousBlock = chain.get(chain.size() - 1);
-        Block newBlock = new Block(previousBlock.getIndex() + 1, previousBlock.getHash(), data);
+        Block newBlock = new Block(previousBlock.getIndex() + 1, previousBlock.getHash(), id, firstName, lastName, age, email, gender);
         chain.add(newBlock);
     }
 
@@ -88,15 +124,20 @@ class Blockchain {
             System.out.println("Timestamp: " + block.getTimestamp());
             System.out.println("Previous Hash: " + block.getPreviousHash());
             System.out.println("Hash: " + block.getHash());
-            System.out.println("Data: " + block.getData());
+            System.out.println("ID: " + block.getId());
+            System.out.println("First Name: " + block.getFirstName());
+            System.out.println("Last Name: " + block.getLastName());
+            System.out.println("Age: " + block.getAge());
+            System.out.println("Email: " + block.getEmail());
+            System.out.println("Gender: " + block.getGender());
             System.out.println();
         }
     }
 
     // CRUD Operations
 
-    public void createBlock(String data) {
-        addBlock(data);
+    public void createBlock(int id, String firstName, String lastName, int age, String email, String gender) {
+        addBlock(id, firstName, lastName, age, email, gender);
     }
 
     // Other CRUD methods (read, update, delete) can be implemented similarly
@@ -119,9 +160,22 @@ public class SimpleBlockchain {
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter data for new block: ");
-                    String data = scanner.nextLine();
-                    blockchain.createBlock(data);
+                    System.out.print("Enter ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter First Name: ");
+                    String firstName = scanner.nextLine();
+                    System.out.print("Enter Last Name: ");
+                    String lastName = scanner.nextLine();
+                    System.out.print("Enter Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter Email: ");
+                    String email = scanner.nextLine();
+                    System.out.print("Enter Gender: ");
+                    String gender = scanner.nextLine();
+
+                    blockchain.createBlock(id, firstName, lastName, age, email, gender);
                     System.out.println("Block created successfully.");
                     break;
                 case 2:

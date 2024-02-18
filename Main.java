@@ -20,7 +20,7 @@ public class Main {
                         MySQLDatabase.mysqlCRUD(scanner);
                         break;
                     case 2:
-                        MongoDBDatabase.mongodbCRUD(scanner);
+                        MongoDBDatabase.mongoDBCRUD(scanner);
                         break;
                     case 3:
                         RedisDatabase.redisCRUD(scanner); // Corrected method name

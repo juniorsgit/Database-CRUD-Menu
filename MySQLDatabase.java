@@ -55,6 +55,9 @@ public class MySQLDatabase {
 
     private static void createCustomer(Connection connection, Scanner scanner) throws SQLException {
         System.out.println("Enter customer details:");
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consume newline character
         System.out.print("First Name: ");
         String firstName = scanner.nextLine();
         System.out.print("Last Name: ");
@@ -67,13 +70,14 @@ public class MySQLDatabase {
         System.out.print("Gender: ");
         String gender = scanner.nextLine();
 
-        String sql = "INSERT INTO customers (first_name, last_name, age, email, gender) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO customers (id, firstName, lastName, age, email, gender) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setInt(3, age);
-            preparedStatement.setString(4, email);
-            preparedStatement.setString(5, gender);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setInt(4, age);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, gender);
             preparedStatement.executeUpdate();
             System.out.println("Customer created successfully.");
         }
@@ -85,8 +89,8 @@ public class MySQLDatabase {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 System.out.println("ID: " + resultSet.getInt("id"));
-                System.out.println("First Name: " + resultSet.getString("first_name"));
-                System.out.println("Last Name: " + resultSet.getString("last_name"));
+                System.out.println("First Name: " + resultSet.getString("firstName"));
+                System.out.println("Last Name: " + resultSet.getString("lastName"));
                 System.out.println("Age: " + resultSet.getInt("age"));
                 System.out.println("Email: " + resultSet.getString("email"));
                 System.out.println("Gender: " + resultSet.getString("gender"));
@@ -113,7 +117,7 @@ public class MySQLDatabase {
         System.out.print("Gender: ");
         String gender = scanner.nextLine();
 
-        String sql = "UPDATE customers SET first_name = ?, last_name = ?, age = ?, email = ?, gender = ? WHERE id = ?";
+        String sql = "UPDATE customers SET firstName = ?, lastName = ?, age = ?, email = ?, gender = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
