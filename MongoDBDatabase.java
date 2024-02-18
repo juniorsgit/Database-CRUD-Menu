@@ -1,3 +1,13 @@
+/** Project: SoloLab Assignment 3
+ * Purpose Details: To create a CRUD menu for MySQL, MongoDB, Redis, and Blockchain databases
+ * Course: IST242
+ * Author: Junior Diaz
+ * Date Developed: 2/16/2024
+ * Last Date Changed: 2/18/2024
+ * Rev: 1
+
+ */
+
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
