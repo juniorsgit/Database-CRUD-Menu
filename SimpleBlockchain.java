@@ -64,7 +64,7 @@ class Block {
         }
     }
 
-    // Getters
+    // Getters and Setters
     public int getIndex() {
         return index;
     }
@@ -89,24 +89,48 @@ class Block {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public int getAge() {
         return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getGender() {
         return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
 
@@ -116,7 +140,7 @@ class Blockchain {
 
     // Constructor
     public Blockchain() {
-        chain = new ArrayList<Block>();
+        chain = new ArrayList<>();
         // Create the genesis block (the first block in the chain)
         chain.add(new Block(0, "0", 0, "", "", 0, "", ""));
     }
@@ -150,7 +174,35 @@ class Blockchain {
         addBlock(id, firstName, lastName, age, email, gender);
     }
 
-    // Other CRUD methods (read, update, delete) can be implemented similarly
+    public void updateBlock(int index, int id, String firstName, String lastName, int age, String email, String gender) {
+        if (index >= 0 && index < chain.size()) {
+            Block blockToUpdate = chain.get(index);
+            blockToUpdate.setId(id);
+            blockToUpdate.setFirstName(firstName);
+            blockToUpdate.setLastName(lastName);
+            blockToUpdate.setAge(age);
+            blockToUpdate.setEmail(email);
+            blockToUpdate.setGender(gender);
+            // Recalculate hash after updating block data
+            blockToUpdate.calculateHash();
+            System.out.println("Block updated successfully.");
+        } else {
+            System.out.println("Invalid block index.");
+        }
+    }
+
+    public void deleteBlock(int index) {
+        if (index >= 0 && index < chain.size()) {
+            chain.remove(index);
+            // Recalculate hash for subsequent blocks
+            for (int i = index; i < chain.size(); i++) {
+                chain.get(i).calculateHash();
+            }
+            System.out.println("Block deleted successfully.");
+        } else {
+            System.out.println("Invalid block index.");
+        }
+    }
 }
 
 public class SimpleBlockchain {
@@ -192,10 +244,31 @@ public class SimpleBlockchain {
                     blockchain.printBlockchain();
                     break;
                 case 3:
-                    // Implement update block operation
+                    System.out.print("Enter the index of the block to update: ");
+                    int updateIndex = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter ID: ");
+                    int updateId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter First Name: ");
+                    String updateFirstName = scanner.nextLine();
+                    System.out.print("Enter Last Name: ");
+                    String updateLastName = scanner.nextLine();
+                    System.out.print("Enter Age: ");
+                    int updateAge = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter Email: ");
+                    String updateEmail = scanner.nextLine();
+                    System.out.print("Enter Gender: ");
+                    String updateGender = scanner.nextLine();
+
+                    blockchain.updateBlock(updateIndex, updateId, updateFirstName, updateLastName, updateAge, updateEmail, updateGender);
                     break;
                 case 4:
-                    // Implement delete block operation
+                    System.out.print("Enter the index of the block to delete: ");
+                    int deleteIndex = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    blockchain.deleteBlock(deleteIndex);
                     break;
                 case 5:
                     running = false;
